@@ -14,8 +14,7 @@ public class ParallelDownloader extends Downloader implements ExecutorService, F
 
     public void run(){//new
     long start = System.nanoTime();
-    //number of processors available returned
-        int worker = Runtime.getRuntime().availableProcessors();
+        int worker = Runtime.getRuntime().availableProcessors();//number of threads available returned
         ExecutorService pool = Executors.newFixedThreadPool(worker);//create pool that reuses a fixed number of threads
 
         List<Callable<String>> callables = new ArrayList<>();// List holds callable results

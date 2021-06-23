@@ -24,7 +24,6 @@ public class UserInterface extends Downloader
 	private Controller ctrl = new Controller();
 
 	public void getDataFromCtrl1(){
-		Scanner s = new Scanner(System.in);
 
 		NewsApi newsApi = new NewsApiBuilder()
 				.setApiKey(APIKEY)
@@ -42,7 +41,6 @@ public class UserInterface extends Downloader
 	public void getDataFromCtrl2(){
 		// TODO implement me Finished
 
-		Scanner s = new Scanner(System.in);
 
 		NewsApi newsApi = new NewsApiBuilder()
 				.setApiKey(APIKEY)
@@ -60,7 +58,6 @@ public class UserInterface extends Downloader
 	public void getDataFromCtrl3(){
 		// TODO implement me Finished
 
-		Scanner s = new Scanner(System.in);
 
 		NewsApi newsApi = new NewsApiBuilder()
 				.setApiKey(APIKEY)
