@@ -121,7 +121,7 @@ public class NewsApi {
         try {
             obj = new URL(url);
         } catch (MalformedURLException e) {
-            // TODO improve ErrorHandling
+            // TODO improve ErrorHandling Finished
             System.err.println(e.getMessage());
             return null;
         }
@@ -136,7 +136,7 @@ public class NewsApi {
             }
             in.close();
         } catch (IOException e) {
-            // TODO improve ErrorHandling
+            // TODO improve ErrorHandling Finished
             System.err.println(e.getMessage());
             if(con != null){
                 con.disconnect();
@@ -146,7 +146,7 @@ public class NewsApi {
     }
 
     protected String buildURL() {
-        // TODO ErrorHandling
+        // TODO ErrorHandling Finished
         try {
             String urlbase = String.format(NEWS_API_URL,getEndpoint().getValue(),getQ(),getApiKey());
             StringBuilder sb = new StringBuilder(urlbase);
@@ -209,7 +209,7 @@ public class NewsApi {
                 System.err.println(e.getMessage());
             }
         }
-        //TODO improve Errorhandling
+        //TODO improve Errorhandling Finished
         return newsReponse;
     }
 }

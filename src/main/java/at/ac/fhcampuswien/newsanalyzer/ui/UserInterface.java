@@ -2,9 +2,14 @@ package at.ac.fhcampuswien.newsanalyzer.ui;
 
 
 import at.ac.fhcampuswien.newsanalyzer.ctrl.Controller;
+import at.ac.fhcampuswien.newsanalyzer.ctrl.NewsAPIException;
+import at.ac.fhcampuswien.newsanalyzer.downloader.Downloader;
+import at.ac.fhcampuswien.newsanalyzer.downloader.ParallelDownloader;
+import at.ac.fhcampuswien.newsanalyzer.downloader.SequentialDownloader;
 import at.ac.fhcampuswien.newsapi.*;
 import at.ac.fhcampuswien.newsapi.beans.*;
 import at.ac.fhcampuswien.newsapi.enums.*;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,12 +18,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class UserInterface
+public class UserInterface extends Downloader
 {
 	private static final String APIKEY = "48fab5bfdd0746208746311d65815d08";
 	private Controller ctrl = new Controller();
 
 	public void getDataFromCtrl1(){
+		Scanner s = new Scanner(System.in);
+
 		NewsApi newsApi = new NewsApiBuilder()
 				.setApiKey(APIKEY)
 				.setQ("corona")
@@ -28,10 +35,15 @@ public class UserInterface
 				.createNewsApi();
 
 		ctrl.process(newsApi);
+
+
 	}
 
 	public void getDataFromCtrl2(){
-		// TODO implement me
+		// TODO implement me Finished
+
+		Scanner s = new Scanner(System.in);
+
 		NewsApi newsApi = new NewsApiBuilder()
 				.setApiKey(APIKEY)
 				.setQ("microsoft")
@@ -41,10 +53,15 @@ public class UserInterface
 				.createNewsApi();
 
 		ctrl.process(newsApi);
+
+
 	}
 
 	public void getDataFromCtrl3(){
-		// TODO implement me
+		// TODO implement me Finished
+
+		Scanner s = new Scanner(System.in);
+
 		NewsApi newsApi = new NewsApiBuilder()
 				.setApiKey(APIKEY)
 				.setQ("corona")
@@ -54,20 +71,22 @@ public class UserInterface
 				.createNewsApi();
 
 		ctrl.process(newsApi);
+
+
 	}
 
 	public void getDataForCustomInput() { //user filter
-		// TODO implement me
+		// TODO implement me Finished
 
 		Scanner s = new Scanner(System.in);
-		//System.out.println("Topic: ");
-		//String topic = s.next();
 
 		for (Category categories:Category.values()){
 			System.out.println(categories);
 		}
 		System.out.println("Category: ");
 		String category = s.next();
+		System.out.println("Country: ");
+		String country = s.next();
 		System.out.println("Topic: ");
 		String topic = s.next();
 		for(Category cat: Category.values()){
@@ -77,7 +96,7 @@ public class UserInterface
 						.setApiKey(APIKEY)
 						.setQ(topic)
 						.setEndPoint(Endpoint.TOP_HEADLINES)// example of how to use enums
-						.setSourceCountry(Country.at)       // example of how to use enums
+						.setSourceCountry(Country.valueOf(country))       // example of how to use enums
 						.setSourceCategory(Category.valueOf(category)) // example of how to use enums
 						.createNewsApi();
 
@@ -87,7 +106,40 @@ public class UserInterface
 		}
 
 
+
 	}
+	public void getDataFromCtrl4(){//new
+		// TODO implement me Finished
+		try {
+			process(ctrl.urlList);
+		}catch (Exception e){
+			System.err.println(e.getMessage());
+		}
+
+	}
+
+	public void getDataFromCtrl5(){//new
+		// TODO implement me Finished
+		try {
+			ParallelDownloader pd = new ParallelDownloader();
+			pd.run();
+		}catch (Exception e){
+			System.err.println(e.getMessage());
+		}
+	}
+
+	public void getDataFromCtrl6(){//new
+		// TODO implement me Finished
+		try {
+			SequentialDownloader sd = new SequentialDownloader();
+			sd.process(Controller.urlList);
+		}catch (Exception e){
+			System.err.println(e.getMessage());
+		}
+
+	}
+
+
 
 	public void start() {
 		Menu<Runnable> menu = new Menu<>("User Interface");
@@ -96,6 +148,9 @@ public class UserInterface
 		menu.insert("b", "Choice: Microsoft", this::getDataFromCtrl2);
 		menu.insert("c", "Choice: Corona Science", this::getDataFromCtrl3);
 		menu.insert("d", "Choice User Input:",this::getDataForCustomInput);
+		menu.insert("e", "Download last search",this::getDataFromCtrl4);
+		menu.insert("f", "Parallel Downloader",this::getDataFromCtrl5);
+		menu.insert("g", "Sequential Downloader",this::getDataFromCtrl6);
 		menu.insert("q", "Quit", null);
 		Runnable choice;
 		while ((choice = menu.exec()) != null) {
@@ -103,6 +158,8 @@ public class UserInterface
 		}
 		System.out.println("Program finished");
 	}
+
+
 
 
 	protected String readLine() {
@@ -135,6 +192,15 @@ public class UserInterface
 			}
 		}
 		return number;
+	}
+	public int process(List<String> urls){//new
+		try {
+			saveUrl2File(urls.get(urls.size() - 1));
+
+		}catch(Exception e){
+			System.err.println(e.getMessage());
+		}
+		return 0;
 	}
 	public Object Data(){return null;}
 }

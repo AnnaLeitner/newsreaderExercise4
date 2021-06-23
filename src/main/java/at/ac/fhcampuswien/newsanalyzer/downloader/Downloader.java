@@ -1,21 +1,20 @@
 package at.ac.fhcampuswien.newsanalyzer.downloader;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import at.ac.fhcampuswien.newsanalyzer.ctrl.NewsAPIException;
+
+import java.io.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class Downloader {
+public abstract class Downloader {// last article url save ==>
 
     public static final String HTML_EXTENTION = ".html";
     public static final String DIRECTORY_DOWNLOAD = "./download/";
 
-    public abstract int process(List<String> urls);
+    public abstract int process(List<String> urls) throws DownloaderException, NewsAPIException;
 
-    public String saveUrl2File(String urlString) {
+    public String saveUrl2File(String urlString) throws DownloaderException, NewsAPIException {
         InputStream is = null;
         OutputStream os = null;
         String fileName = "";
@@ -28,14 +27,16 @@ public abstract class Downloader {
                 fileName = url4download.getHost() + HTML_EXTENTION;
             }
             os = new FileOutputStream(DIRECTORY_DOWNLOAD + fileName);
-
             byte[] b = new byte[2048];
             int length;
             while ((length = is.read(b)) != -1) {
                 os.write(b, 0, length);
             }
-        } catch (IOException e) {
+        } catch(FileNotFoundException e){//new
+            throw new DownloaderException("File Not Found.....");
+        } catch (Exception e) {//new
             e.printStackTrace();
+            throw new NewsAPIException("Not what you wanted...");
         } finally {
             try {
                 Objects.requireNonNull(is).close();

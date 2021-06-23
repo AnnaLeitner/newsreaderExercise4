@@ -10,19 +10,23 @@ import at.ac.fhcampuswien.newsapi.enums.Endpoint;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Controller {
-
+	public static List<String> urlList = new ArrayList<>();
 	public static final String APIKEY = "48fab5bfdd0746208746311d65815d08";  //TODO add your api key Finished
 
 	public void process(NewsApi newsApi) {
 		System.out.println("Start process");
-		//TODO load the news based on the parameters
-		//TODO implement Error handling
+		if(!urlList.isEmpty()){//new
+			urlList.clear();
+		}
+		//TODO load the news based on the parameters Finished
+		//TODO implement Error handling Finished
 
 		NewsResponse newsResponse = null;
 		try {
@@ -59,7 +63,7 @@ public class Controller {
 				System.out.println(articles2.get(0));
 			}
 
-			for (Article a:articles) {
+			/*for (Article a:articles) {
 				try{
 					URL url = new URL(a.getUrl());
 					InputStream input = url.openStream();
@@ -74,14 +78,15 @@ public class Controller {
 				} catch (Exception e) {
 					System.err.println(e.getMessage());
 				}
+			}*/
 
-			}
+			articles.stream().forEach(article -> urlList.add(article.getUrl()));//new
 
 		}else{
 			System.err.println("Couldn't find news");
 		}
 
-		//TODO implement methods for analysis
+		//TODO implement methods for analysis Finished
 
 
 		System.out.println("End process");
